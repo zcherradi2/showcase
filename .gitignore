@@ -22,3 +22,8 @@ __pycache__/
 *.xlsx
 *.eml
 *.csv
+# run artefacts from tools/ (screenshots, e2e logs)
+*.png
+e2e-*.txt
+shot-*.png
+mock.log
