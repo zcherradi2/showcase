@@ -1,0 +1,11 @@
+node_modules/
+data/
+persona.config.json
+*.log
+.DS_Store
+# build output
+bin/
+obj/
+
+# local screenshots captured by tools/
+*.png

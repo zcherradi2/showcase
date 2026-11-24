@@ -1,0 +1,10 @@
+﻿{
+  "Llm": {
+    "BaseUrl": "http://localhost:3001/v1",
+    "ApiKey": "",
+    "Model": "auto",
+    "Fallbacks": "",
+    "Disabled": false,
+    "TimeoutMs": 30000
+  }
+}

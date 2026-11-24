@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Persona — people vote, the analyst decides</title>
+<meta name="description" content="Traditional tests ask you to describe yourself. Persona asks the room. People vote, the analyst reads the gap between your Ego and your Persona, and names the Shadow." />
+<meta name="color-scheme" content="dark" />
+<meta property="og:title" content="Persona — people vote, the analyst decides" />
+<meta property="og:description" content="You have never seen your own face from the other side of the table. Let the room vote, then let the analyst read the gap." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307070a'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%2379e2c8' stroke-width='2'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23ffb340'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="/css/style.css?v=6" />
+</head>
+<body>
+<!-- Decision D21: ambient masks. A smiling bust and a weeping bust, blurred almost
+     flat: the shoulders, head and mouth still read at a glance, which is the whole
+     metaphor. Decorative only, aria-hidden, pointer-events none, behind the shell. -->
+<div class="ambient" aria-hidden="true">
+  <span class="glow g1"></span>
+  <span class="glow g2"></span>
+
+  <svg class="mask mask-smile" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Decision D22: dark fills only. The first pass used hot pink and read as a
+           smeared highlighter; these are the muted colours asked for. -->
+      <linearGradient id="gSmile" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#8c1f5c" />
+        <stop offset="0.55" stop-color="#571540" />
+        <stop offset="1" stop-color="#1a1730" />
+      </linearGradient>
+    </defs>
+    <!-- body -->
+    <path d="M8 262 C 22 196, 58 170, 100 170 C 142 170, 178 196, 192 262 Z" fill="url(#gSmile)" />
+    <rect x="84" y="132" width="32" height="48" rx="10" fill="#7a1a4f" />
+    <!-- head -->
+    <ellipse cx="100" cy="96" rx="47" ry="57" fill="url(#gSmile)" />
+    <!-- eyes -->
+    <ellipse cx="79" cy="86" rx="11" ry="6.5" fill="#0b0d18" transform="rotate(-8 79 86)" />
+    <ellipse cx="121" cy="86" rx="11" ry="6.5" fill="#0b0d18" transform="rotate(8 121 86)" />
+    <!-- the smile -->
+    <path d="M66 118 Q 100 152 134 118 Q 100 136 66 118 Z" fill="#0b0d18" />
+  </svg>
+
+  <svg class="mask mask-cry" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="gCry" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#2c3768" />
+        <stop offset="0.6" stop-color="#1b2247" />
+        <stop offset="1" stop-color="#12152b" />
+      </linearGradient>
+    </defs>
+    <!-- body -->
+    <path d="M8 262 C 22 196, 58 170, 100 170 C 142 170, 178 196, 192 262 Z" fill="url(#gCry)" />
+    <rect x="84" y="132" width="32" height="48" rx="10" fill="#232c55" />
+    <!-- head -->
+    <ellipse cx="100" cy="96" rx="47" ry="57" fill="url(#gCry)" />
+    <!-- eyes, closed and downcast -->
+    <path d="M68 84 Q 79 92 90 84" stroke="#0b0d18" stroke-width="6" fill="none" stroke-linecap="round" />
+    <path d="M110 84 Q 121 92 132 84" stroke="#0b0d18" stroke-width="6" fill="none" stroke-linecap="round" />
+    <!-- the weeping mouth -->
+    <path d="M70 132 Q 100 106 130 132 Q 100 120 70 132 Z" fill="#0b0d18" />
+    <!-- tears -->
+    <path d="M72 96 q -3 14 2 22 q 7 -9 3 -22 z" fill="#5f7dbf" />
+    <path d="M128 96 q 3 14 -2 22 q -7 -9 -3 -22 z" fill="#5f7dbf" />
+  </svg>
+</div>
+<div class="shell">
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#/"><span class="mark">◐</span> Persona <small>reverse psychometrics</small></a>
+      <nav class="topnav">
+        <a href="#/new" data-nav="new">Get read</a>
+        <a href="#/how" data-nav="how">Method</a>
+        <a href="#/p/demo0001" data-nav="demo">Live portrait</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app" aria-live="polite"></main>
+
+  <footer class="foot">
+    <div class="wrap" style="display:flex; gap:18px; flex-wrap:wrap; align-items:center; width:100%">
+      <span>Persona · people vote, the analyst decides</span>
+      <span style="opacity:.5">·</span>
+      <a href="#/how">The method</a>
+      <a href="#/new">Open a dossier</a>
+      <span id="ai-status" class="badge" style="margin-left:auto"></span>
+    </div>
+  </footer>
+</div>
+<div class="toast" id="toast"></div>
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>
