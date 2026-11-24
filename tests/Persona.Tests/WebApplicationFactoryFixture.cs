@@ -17,14 +17,16 @@ public sealed class WebApplicationFactoryFixture : IDisposable
     private readonly WebApplicationFactory<Program> factory = new();
 
     /// <summary>A client with its own database. Null base URL means the analyst is off.</summary>
-    public HttpClient Client(string? llmBaseUrl, bool throttle = true) =>
+    /// <remarks>Decision D25: an overload that also sets the provider chain, so failover
+    /// can be exercised without every test reaching into the host builder.</remarks>
+    public HttpClient Client(string? llmBaseUrl, bool throttle = true, string? fallbacks = null) =>
         factory.WithWebHostBuilder(b =>
         {
             b.UseSetting("PERSONA_TEST", "1");
             b.UseSetting("PERSONA_DATA_DIR", Path.Combine(Path.GetTempPath(), "persona-tests", Guid.NewGuid().ToString("n")));
             b.UseSetting("PERSONA_SEED", "0");
             b.UseSetting("PERSONA_LLM_TIMEOUT", "5000");
-            b.UseSetting("PERSONA_LLM_FALLBACKS", string.Empty);
+            b.UseSetting("PERSONA_LLM_FALLBACKS", fallbacks ?? string.Empty);
             b.UseSetting("PERSONA_RATE_LIMIT", throttle ? "on" : "off");
             if (llmBaseUrl is null)
             {
