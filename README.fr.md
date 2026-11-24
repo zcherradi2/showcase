@@ -1,43 +1,40 @@
 ﻿# Persona — les gens votent, l'analyste décide
 
-Un test classique vous demande de vous décrire, puis vous rend un résultat. Persona
-fait l'inverse : ce sont les gens autour de vous qui répondent, les chiffres sont les
-leurs, et le travail de l'IA consiste uniquement à dire ce que révèle l'écart entre
-leurs réponses et les vôtres.
+Un test de personnalité ordinaire vous demande de vous décrire, puis vous revend votre
+propre description. Persona fait l'inverse.
 
-## Les trois mots
+Les personnes qui vous connaissent répondent au même questionnaire, et leurs réponses
+deviennent votre **Persona** : la version de vous qui circule réellement dans le monde.
+Vous y répondez aussi, avant de voir le moindre vote, et c'est votre **Ego**, l'histoire
+que vous racontez sur vous-même. L'écart entre les deux, c'est là que surgit l'**Ombre** :
+la part qu'aucun des deux récits ne couvre, déduite par un analyste et jamais présentée
+comme un fait.
 
-**Persona — ce que le monde voit.** Chaque personne qui vous connaît répond aux mêmes
-questions que vous, en précisant comment elle vous connaît : cercle proche, famille,
-travail, en ligne. Un vote du cercle proche pèse plus lourd qu'un vote anonyme. C'est
-la moyenne pondérée de ces réponses : votre Persona.
+Le calcul est fait en C# déterministe. Le modèle se contente de raconter, donc chaque
+lecture peut être ramenée aux chiffres qui l'ont produite.
 
-**Ego — ce que vous croyez être.** Avant de voir quoi que ce soit, vous répondez aux
-mêmes questions sur vous-même. Vous ne pouvez pas copier la réponse des autres : elle
-n'existe pas encore. C'est votre Ego, et vous seul le voyez.
+## Lancer le projet
 
-**Shadow — ce que l'écart trahit.** L'analyste compare les deux. Sur les axes où vous
-vous décrivez très différemment de la façon dont on vous décrit, quelque chose se
-passe. L'hypothèse n'est jamais « vous êtes ceci », mais « voici la part de vous que
-les autres voient et que vous ne montrez pas — ou l'inverse » : la persona que vous
-portez, l'angle mort que vous avez sur vous-même, ou le masque que le monde vous
-impose.
+```powershell
+.\tools\dev.ps1            # compile et sert sur http://127.0.0.1:8130
+.\tools\test.ps1           # 62 tests
+node tools\e2e.mjs         # 20 vérifications dans un navigateur sans interface
+```
 
-## Comment lire votre page
+Il faut .NET 9. Pas de npm, pas d'étape de compilation : le frontend est en modules ES
+natifs.
 
-1. **Votre Persona** : huit axes, de -100 à +100, calculés sur des votes réels.
-2. **Votre Ego** : vos propres réponses, posées sur la même échelle.
-3. **L'écart** : la barre entre les deux. Plus elle est longue, plus votre récit et
-   votre réputation se contredisent.
-4. **La Shadow** : une hypothèse, écrite à partir des écarts les plus nets, jamais une
-   diagnostic. Elle est là pour être discutée, pas pour être crue.
-5. **Les preuves** : les phrases que les gens ont laissées. C'est la partie que l'on
-   relit.
+## L'idée en trois temps
 
-## Ce que Persona ne fait pas
+- **Persona — la donnée.** Ce que la salle dit de vous. Pondéré par la proximité : votre
+  cercle proche pèse plus qu'un inconnu qui a suivi un lien.
+- **Ego — le récit.** Ce que vous dites de vous. Rempli avant de voir un seul vote, donc
+  impossible à ajuster après coup.
+- **Ombre — le reste.** Là où les deux récits ne se recouvrent pas. Toujours formulée
+  comme une hypothèse, jamais comme un diagnostic.
 
-Il ne devine pas votre passé, il ne vous note pas, et il ne dit pas qui vous êtes. Il
-montre comment on vous perçoit, puis il vous laisse décider ce que vous en faites.
+## Pour aller plus loin
 
-*Les chiffres sont calculés par le serveur, jamais par le modèle. L'IA ne fait que les
-mettre en mots : c'est ce qui rend chaque lecture vérifiable.*
+- [RUN-REPORT.md](RUN-REPORT.md) — ce qui a été construit, vérifié, et ce qui reste non prouvé.
+- [SCALING.md](SCALING.md) — ce qui casse en premier sous un trafic réel, et où intervenir.
+- En anglais : [README.md](README.md) · en espagnol : [README.es.md](README.es.md)
