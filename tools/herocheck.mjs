@@ -16,10 +16,10 @@ ws.onmessage = (e) => { const m = JSON.parse(e.data); if (m.id && waiters.has(m.
 const send = (method, params) => new Promise((res) => { const i = ++id; waiters.set(i, res); ws.send(JSON.stringify({ id: i, method, params })); });
 await send('Page.enable', {});
 await send('Runtime.enable', {});
-await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+await send('Emulation.setDeviceMetricsOverride', { width: parseInt(process.env.W||'1440'), height: 900, deviceScaleFactor: 1, mobile: false });
 await send('Page.navigate', { url: 'http://127.0.0.1:8130/#/' });
 await sleep(3000);
-const r = await send('Runtime.evaluate', { expression: `(() => { const q = (s) => { const e = document.querySelector(s); if (!e) return null; const cs = getComputedStyle(e); const b = e.getBoundingClientRect(); return { size: cs.fontSize, w: Math.round(b.width), h: Math.round(b.height) }; }; return JSON.stringify({ hero: q('h1.display'), h2: q('h2.section'), lede: q('.section-lede'), step: q('.step .t'), stepd: q('.step .d'), triad: q('.triad .panel h3'), cta: q('.cta-band h2') }, null, 1); })()`, returnByValue: true });
+const r = await send('Runtime.evaluate', { expression: `(() => { const q = (s) => { const e = document.querySelector(s); if (!e) return null; const cs = getComputedStyle(e); const b = e.getBoundingClientRect(); return { size: cs.fontSize, w: Math.round(b.width), h: Math.round(b.height) }; }; return JSON.stringify({ hero: q('h1.display'), line: q('p.lede'), cta: q('.btn-row .btn'), mask: q('.mask-smile'), h2: q('h2.section'), lede: q('p.lede'), sledge: q('.section-lede'), step: q('.step .t'), stepd: q('.step .d'), triad: q('.triad .panel h3'), cta: q('.cta-band h2') }, null, 1); })()`, returnByValue: true });
 console.log(r.result.value);
 ws.close(); p.kill();
 
