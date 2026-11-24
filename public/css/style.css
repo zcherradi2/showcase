@@ -631,9 +631,30 @@ body { font-size: calc(16px * var(--read-scale)); }
 p.lede { font-size: calc(17.5px * var(--read-scale)); max-width: 58ch; }
 .small { font-size: calc(13px * var(--read-scale)); line-height: 1.6; }
 .tiny { font-size: calc(11px * var(--read-scale)); }
-h2.section { font-size: clamp(27px, 3.3vw, 38px); }
+h2.section { font-size: clamp(32px, 3.9vw, 52px); line-height: 1.06; letter-spacing: -0.02em; }
 h3.sub { font-size: calc(19px * var(--read-scale)); }
 .hero .meta { font-size: calc(12px * var(--read-scale)); }
+
+/* Decision D24: sections step down from the 96px headline in even stages, so the page
+   reads as one system instead of a giant headline over small print. */
+.section-lede { font-size: calc(17.5px * var(--read-scale)); color: var(--dim); max-width: 54ch; margin: 0; line-height: 1.6; }
+.hair { margin: 46px 0; }
+
+.triad { gap: 16px; margin: 42px 0; }
+.triad .panel h3 { font-size: calc(23px * var(--read-scale)); }
+.triad .panel p { font-size: calc(14.5px * var(--read-scale)); }
+.triad .panel .tag { font-size: calc(11px * var(--read-scale)); }
+
+/* The ritual list: a real component instead of inline styles in the view. */
+.steps { display: grid; gap: 0; }
+.step { display: grid; grid-template-columns: 42px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line-soft); }
+.step:last-child { border-bottom: 0; }
+.step .n { font-family: var(--mono); font-size: calc(13px * var(--read-scale)); color: var(--faint); padding-top: 5px; }
+.step .t { font-family: var(--serif); font-size: calc(21px * var(--read-scale)); line-height: 1.2; }
+.step .d { font-size: calc(14px * var(--read-scale)); color: var(--dim); margin-top: 4px; line-height: 1.55; }
+
+.cta-band { display: flex; gap: 26px; align-items: center; flex-wrap: wrap; justify-content: space-between; padding: 30px 32px; }
+.cta-band h2 { font-size: clamp(24px, 2.4vw, 34px); margin: 0 0 6px; }
 
 .triad .panel h3 { font-size: calc(20px * var(--read-scale)); }
 .triad .panel p { font-size: calc(13.5px * var(--read-scale)); }

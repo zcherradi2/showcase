@@ -1,4 +1,4 @@
-﻿import { spawn } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -19,7 +19,7 @@ await send('Runtime.enable', {});
 await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
 await send('Page.navigate', { url: 'http://127.0.0.1:8130/#/' });
 await sleep(3000);
-const r = await send('Runtime.evaluate', { expression: `(() => { const h = document.querySelector('h1.display'); const cs = getComputedStyle(h); const b = h.getBoundingClientRect(); return JSON.stringify({ fontSize: cs.fontSize, maxWidth: cs.maxWidth, width: Math.round(b.width), height: Math.round(b.height), lines: Math.round(b.height / parseFloat(cs.lineHeight)), wrapWidth: Math.round(h.parentElement.getBoundingClientRect().width) }); })()`, returnByValue: true });
+const r = await send('Runtime.evaluate', { expression: `(() => { const q = (s) => { const e = document.querySelector(s); if (!e) return null; const cs = getComputedStyle(e); const b = e.getBoundingClientRect(); return { size: cs.fontSize, w: Math.round(b.width), h: Math.round(b.height) }; }; return JSON.stringify({ hero: q('h1.display'), h2: q('h2.section'), lede: q('.section-lede'), step: q('.step .t'), stepd: q('.step .d'), triad: q('.triad .panel h3'), cta: q('.cta-band h2') }, null, 1); })()`, returnByValue: true });
 console.log(r.result.value);
 ws.close(); p.kill();
 

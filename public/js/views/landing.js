@@ -55,7 +55,7 @@ export async function render(main) {
       <div>
         <div class="eyebrow">The ritual</div>
         <h2 class="section" style="margin-top:12px">Two minutes of someone else's honesty</h2>
-        <p class="muted" style="font-size:14.5px">Voters never see the results. They choose three cards, place you on six dials, answer four unfair either/or questions, and leave one line they will remember.</p>
+        <p class="section-lede">Voters never see the results. They choose three cards, place you on six dials, answer four unfair either/or questions, and leave one line they will remember.</p>
       </div>
       <div class="panel">
         ${[
@@ -65,10 +65,7 @@ export async function render(main) {
           ['04', 'Leave a receipt', 'One line, one ring. The receipts are the emotional payload of the whole product.'],
         ]
           .map(
-            ([n, t, d]) => `<div style="display:grid;grid-template-columns:34px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-soft)">
-              <span class="mono" style="color:var(--faint);font-size:12px">${n}</span>
-              <div><div style="font-family:var(--serif);font-size:17px">${t}</div><div class="small">${d}</div></div>
-            </div>`,
+            ([n, t, d]) => `<div class="step"><span class="n">${n}</span><div><div class="t">${t}</div><div class="d">${d}</div></div></div>`,
           )
           .join('')}
       </div>
@@ -80,7 +77,7 @@ export async function render(main) {
       <div>
         <div class="eyebrow">Why backwards</div>
         <h2 class="section" style="margin-top:12px">Self-report is a story. Perception is a measurement.</h2>
-        <p class="muted" style="font-size:14.5px">You cannot audit your own face. Everyone else can. The catch: people are kind on a link, so the instrument never asks “rate this person out of ten”. It asks what they would <em>do</em>, and disagreement becomes the data.</p>
+        <p class="section-lede">You cannot audit your own face. Everyone else can. The catch: people are kind on a link, so the instrument never asks “rate this person out of ten”. It asks what they would <em>do</em>, and disagreement becomes the data.</p>
         <a class="btn small" href="#/how" style="margin-top:6px">Read the method and the maths</a>
       </div>
       <div class="panel soft">
@@ -99,9 +96,9 @@ export async function render(main) {
 
     <hr class="hair" />
 
-    <div class="panel" style="display:flex;gap:22px;align-items:center;flex-wrap:wrap;justify-content:space-between">
+    <div class="panel cta-band">
       <div>
-        <h2 class="section" style="font-size:24px;margin-bottom:4px">Someone you know would probably answer honestly.</h2>
+        <h2>Someone you know would probably answer honestly.</h2>
         <p class="small" style="margin:0">Open a dossier, take your own Ego test, send one link.</p>
       </div>
       <div class="btn-row">
