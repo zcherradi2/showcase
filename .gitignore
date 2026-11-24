@@ -1,0 +1,18 @@
+# Decision D74 (2026-11-24): this repo is a public showcase - README only.
+# Nothing private, no client documents, no application records. Anything that names a real
+# prospect, an address, or a pasted invoice stays out of this repository.
+
+__pycache__/
+*.pyc
+node_modules/
+*.tmp
+~$*
+.DS_Store
+Thumbs.db
+
+# never commit documents or data files here
+*.pdf
+*.docx
+*.xlsx
+*.eml
+*.csv
