@@ -1,11 +1,24 @@
-node_modules/
+﻿node_modules/
 data/
 persona.config.json
 *.log
 .DS_Store
+Thumbs.db
+
 # build output
 bin/
 obj/
+__pycache__/
+*.pyc
+*.tmp
+~$*
 
 # local screenshots captured by tools/
 *.png
+
+# never commit documents or data files here
+*.pdf
+*.docx
+*.xlsx
+*.eml
+*.csv

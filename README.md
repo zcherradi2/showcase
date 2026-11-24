@@ -1,94 +1,48 @@
 # Persona — people vote, the analyst decides
 
-A normal test asks you about yourself and hands you a result. Persona does the
-reverse: the people around you answer, the numbers are theirs, and the AI's job is
-only to say what the distance between their answers and yours might mean.
+A normal personality test asks you to describe yourself, then sells the description
+back to you. Persona inverts it.
 
-Three words carry the whole product:
+People who know you answer the same instrument, and their answers become your
+**Persona** — the version of you that actually walks around in the world. You answer
+it too, before you see a single vote, and that is your **Ego**, the story you tell
+about yourself. The distance between the two is where the **Shadow** shows up: the
+part neither account covers, inferred by an analyst and never presented as fact.
 
-- **Persona** — how the room actually reads you. Weighted by how close each voter is
-  to you (inner 1.2, family 1.15, work 1.0, online 0.75, unverified 0.4).
-- **Ego** — how you read yourself. You take the same instrument, before you see any
-  result, and your answers are never shown to voters.
-- **Shadow** — the hypothesis the analyst draws from the gap between the two. Always
-  phrased as inference, never as a diagnosis.
+Deterministic C# does all the maths. The model only narrates, so every reading can be
+traced back to the numbers that produced it.
 
 ## Run it
 
 ```powershell
-.\tools\dev.ps1              # build + start on http://127.0.0.1:8130
-.\tools\dev.ps1 -Stop        # stop
+.\tools\dev.ps1            # build + serve on http://127.0.0.1:8130
+.\tools\test.ps1           # 62 tests
+node tools\e2e.mjs         # 20 headless browser checks
 ```
 
-First run creates `data/persona.db` (SQLite, EF Core migrations) and seeds one demo
-dossier — `http://127.0.0.1:8130/#/p/demo0001`, 26 votes, ready to read.
+Needs .NET 9. No npm, no build step, no node_modules: the frontend is plain ES modules.
 
-## Test it
+## What is in here
 
-```powershell
-.\tools\test.ps1             # xUnit: 45 domain + API tests
-.\tools\smoke.ps1            # the whole path over real HTTP (no browser)
-node tools\e2e.mjs           # headless Chrome drives the real UI (no npm install)
-```
+| Path | What it is |
+|---|---|
+| `src/Persona.Api` | .NET 9 minimal API, EF Core + SQLite, migrations, the scoring engine |
+| `shared/model.js` | the instrument itself: axes, cards, probes, rings — one source of truth |
+| `public/` | the site: landing, the voting ritual, the private portrait, the public share page |
+| `tests/Persona.Tests` | 62 tests: scoring against hand-computed values, access, rate limits, prompt injection, provider failover |
+| `tools/` | dev server, test runner, headless E2E, mock LLM router, screenshot + pixel measuring |
 
-`tools\mock-llm.mjs` is a stand-in OpenAI-compatible router, so the AI path can be
-tested with no key, no network and no rate limit:
+## Two more documents
 
-```powershell
-node tools\mock-llm.mjs 3311
-$env:PERSONA_LLM_BASE="http://127.0.0.1:3311/v1"
-$env:PERSONA_LLM_MODEL="mock/gemini-2.0-flash"
-.\tools\dev.ps1
-```
+- **[RUN-REPORT.md](RUN-REPORT.md)** — what was built, what was verified, how, and what is still unproven.
+- **[SCALING.md](SCALING.md)** — what breaks first under real traffic and the exact seam to change for each.
+- [README-full.md](README-full.md) — the long architecture notes and the design decisions.
 
-## The analyst
+Reading in French: **[README.fr.md](README.fr.md)** · in Spanish: **[README.es.md](README.es.md)**
 
-Decision D8 — one provider list, tried in order, first one that answers wins:
+The portfolio that used to live here is kept in
+[portfolio-README-archive.md](portfolio-README-archive.md).
 
-1. `PERSONA_LLM_BASE` (default `http://localhost:3001/v1`, a local
-   [freellmapi](https://github.com/tashfeenahmed/freellmapi) router aggregating 87
-   free providers behind one OpenAI-compatible endpoint)
-2. `PERSONA_LLM_FALLBACKS` — `url|key, url|key`, tried in order
-3. the local analyst — deterministic narration, so the product never shows an empty
-   state and a demo never dies because a free tier is exhausted
+## Licence
 
-The model is given a digest (numbers, findings, at most 6 receipts, ~2 KB) and must
-answer JSON. It never sees the raw vote table and never invents a number: every
-figure in the reading is computed by `Domain/Scoring.cs` first, and a model answer
-that does not parse is rejected in favour of the local reading.
-
-## Layout
-
-```
-src/Persona.Api/          .NET 9 minimal API + EF Core (SQLite)
-  Domain/                 instrument, scoring, local analyst, validation
-  Data/                   DbContext, migrations, store
-  Api/                    endpoints (the JSON contract the browser uses)
-  Services/               LlmAnalyst: provider chain, prompt, JSON validation
-public/                   the site: no framework, no build step
-shared/model.js           the instrument, imported by the browser
-tests/Persona.Tests/      xUnit: domain, API, LLM path against a mock router
-tools/                    dev.ps1, test.ps1, smoke.ps1, e2e.mjs, mock-llm.mjs
-```
-
-## Decisions on record
-
-Each is one marked spot so it can be changed without rework.
-
-- **D1** .NET 9 + EF Core backend, SQLite file database.
-- **D2** The JSON contract the frontend was written against is unchanged.
-- **D3** Tests assert the real contract, not an imagined one.
-- **D4** A voter is a device (random id in `localStorage`, sent as `x-voter-id`), not
-  an IP address; throttling is configurable via `PERSONA_THROTTLE`.
-- **D5/D6** The ritual is verified in a real headless browser, not by inspecting code.
-- **D7** The LLM layer is tested against a mock router before going live.
-- **D8** Free providers first, mock second, local reasoning last (see above).
-- **D9** User-facing explanation in French and Spanish with correct accents.
-- **D10** Every reading carries `caveat`: the Shadow is a hypothesis, not a diagnosis.
-
-## Languages
-
-User-facing explanation of the Ego / Persona / Shadow reading, in native copy:
-
-- [Français](README.fr.md)
-- [Español](README.es.md)
+Not chosen yet — treat it as all rights reserved until a `LICENSE` file appears.
